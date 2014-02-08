@@ -29,10 +29,11 @@ still being done on the Verizon router, but it's something I can live with. The
 Rev I of the Verizon router isn't terrible hardware-wise, it's just incompatible
 with custom firmware while retaining [MoCA][moca] support for the TV.
 
-
 I signed up for a Hurricane Electric (HE) [tunnel][henet] and configured a tunnel.
 IRC does not work until one takes the [IPv6 test][hetest] to reach Sage level.
-As a bonus, they give you a T-shirt. 
+As a bonus, they give you a T-shirt. In order to get this to work, IP protocol
+41 had to be forwarded to the ASUS router as described by [Bill
+Owens](http://bill-owens.blogspot.com/2011/11/hurricane-electric-ipv6-tunnel-through.html) 
 
 As IPv6 addresses can be long and difficult to remember, I wanted to enable DDNS
 for local computers in the network, which requires DHCPv6. By default this is
@@ -49,8 +50,9 @@ interface) must be enabled.
 
 Ultimately the configuration I used will result in four addresses being
 assigned to each device (3 in the case of Android). These are the global address
-assigned by DHCPv6, the global SLAAC address generated from the MAC address, the global [IPv6
-privacy extensions][privacy] for SLAAC, and the device's automatically generated
+assigned by DHCPv6, the global SLAAC address generated from the MAC address, the
+global [IPv6 privacy extensions][privacy] for SLAAC, and the device's
+automatically generated
 link-local address.
 
 [openwrt_rtn16]: http://wiki.openwrt.org/toh/asus/rt-n16
