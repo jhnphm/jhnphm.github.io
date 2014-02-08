@@ -1,7 +1,7 @@
 ---
 layout: post 
 title: "OpenWRT IPv6 Tunnel with Verizon FIOS" 
-date: 2014-02-08 01:50:52 
+date: 2014-02-08 13:50:52 
 categories: ipv6 openwrt verizon 
 ---
 
