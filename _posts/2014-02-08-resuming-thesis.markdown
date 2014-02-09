@@ -20,7 +20,9 @@ Pi itself.
 
 We are looking at using the [Tiva-C][tivac] series microcontroller from Texas Instruments
 which has the ability to do 2 megasamples per second, and runs at 80MHz, for the
-low cost of 12$.
+low cost of 12$. What we actually have on hand is the LM4F120XL which is
+essentially the same thing before the series was rebranded, but without PWM and
+USB OTG.
 
 The ADCs on the microcontroller require buffering due to the rather low 2.5kOhm
 impedence. This will be addressed later. In the meantime, we intend to use the
@@ -30,9 +32,9 @@ In order to build the toolchain, I downloaded the latest version of
 [crosstool-ng][ct-ng] and built it from source, using a
 [post](http://e2e.ti.com/support/microcontrollers/tiva_arm/f/908/t/65137.aspx)
 by Todd Elliot on the TI forums as a guide. However, it doesn't seem necessary
-to install OpenOCD from source on Ubuntu 13.10, and the sample config
-recommended isn't optimal for the microcontroller (doesn't use the hardware
-floating point). A sample configuration will be posted later. 
+to install OpenOCD from source on Ubuntu 13.10 for the LM4F120XL, and the sample
+config recommended isn't optimal for the microcontroller (doesn't use the
+hardware floating point). A sample configuration will be posted later. 
 
 This blog post will be updated once I've actually verified that the hardfp
 toolchain works.
