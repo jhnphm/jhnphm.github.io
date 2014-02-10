@@ -34,12 +34,69 @@ In order to build the toolchain, I downloaded the latest version of
 by Todd Elliot on the TI forums as a guide. However, it doesn't seem necessary
 to install OpenOCD from source on Ubuntu 13.10 for the LM4F120XL, and the sample
 config recommended isn't optimal for the microcontroller (doesn't use the
-hardware floating point). A sample configuration will be posted later. 
+hardware floating point). I've posted my configuration on
+[github][tiva-c_xtools]. 
 
-This blog post will be updated once I've actually verified that the hardfp
-toolchain works.
+One also needs to download [TivaWare][tivaware] from Texas Instruments. Once
+downloaded it can be unzipped on Linux without running the windows executable.
+Run `make clean` on the extracted directory, `patch -Np1 < hard_fp.patch`, then
+run `make`.  The patch can be found in my repository above. My configuration
+enables the hard float ABI while TivaWare is set to default to soft float. 
+
+To start the on-chip-debugger to program the board, ensure that the
+permissions to /dev/ttyAC\* are correct.  then run `openocd -f
+/usr/share/openocd/scripts/board/ek-lm4f120xl.cfg` for the
+LM4F120XL, or `openocd -f /usr/share/openocd/scripts/board/ek-tm4c123gxl.cfg`
+for the TivaC. `ek-tm4c123gxl.cfg` will have to be obtained from
+[gitorious][tivac_ocd] and placed in `/usr/share/openocd/scripts/board`. The
+above assumes OpenOCD was installed from a package manager.
+
+As an example, to program, run `arm-stellaris-eabi-gdb tivaware/examples/boards/ek-tm4c123gxl/qs-rgb/gcc/qs-rgb.axf`
+
+Below is an example session:
+
+<pre>
+GNU gdb (crosstool-NG 1.19.0) 7.6-2013.05
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "--host=x86_64-build_unknown-linux-gnu
+--target=arm-stellaris-eabi".
+For bug reporting instructions, please see:
+<http://bugs.launchpad.net/gdb-linaro/>...
+Reading symbols from
+/home/john/Downloads/tivaware/examples/boards/ek-tm4c123gxl/qs-rgb/gcc/qs-rgb.axf...done.
+(gdb) target remote :3333
+Remote debugging using :3333
+0x000002d4 in ButtonsPoll ()
+(gdb) monitor reset halt
+target state: halted
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000ba4 msp: 0x20000910
+(gdb) load
+
+Loading section .text, size 0x2664 lma 0x0
+Loading section .data, size 0x50 lma 0x2664
+Start address 0xba4, load size 9908
+Transfer rate: 12 KB/sec, 4954 bytes/write.
+(gdb) 
+(gdb) monitor reset init
+target state: halted
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000ba4 msp: 0x20000910
+(gdb) c
+</pre>
 
 
 
+
+
+
+
+[tiva-c_xtools]: https://github.com/jhnphm/tiva-c_xtools
 [ct-ng]: http://crosstool-ng.org/
 [tivac]:www.ti.com/ww/en/launchpad/launchpads-tivac.html
+[tivac_ocd]: https://gitorious.org/openocd/openocd/commit/24099b4c144f1c6d1244b8b4d98c0fd69c9ff2fc
+[tivaware]: https://focus-webapps.ti.com/licreg/docs/swlicexportcontrol.tsp?form_type=2&prod_no=SW-EK-LM4F232-2.0.1.11577.exe&ref_url=http://software-dl.ti.com/tiva-c/SW-TM4C/latest/&form_id=154910
