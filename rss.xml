@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Soldering Fumes</title><link>http://jhnphm.github.io</link><description>Jhnphm's Blag</description><atom:link href="http://jhnphm.github.io/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Tue, 11 Feb 2014 01:36:01 GMT</lastBuildDate><generator>Nikola &lt;http://getnikola.com/&gt;</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Resuming Thesis</title><link>http://jhnphm.github.io/posts/resuming-thesis.html</link><description>&lt;div&gt;&lt;p&gt;So I've not been working consistently on my thesis as I should. As
+previously mentioned on my old &lt;a class="reference external" href="http://jhnphm.wordpress.com/"&gt;blog&lt;/a&gt;, I was considering running
+everything directly off the Raspberry Pi and using Xenomai as the
+real-time OS in order to keep the jitter low.&lt;/p&gt;
+&lt;p&gt;After some discussions with my professor, we decided that it would
+drastically simplify things if the realtime measurement part was
+assigned to a microcontroller, which also has ADCs which the Pi doesn't
+have. This essentially relegates the Pi to being a NIC and a data
+storage device. There are ethernet interfaces for microcontrollers,
+however they tend to cost almost as much as the Pi itself.&lt;/p&gt;
+&lt;p&gt;We are looking at using the &lt;a class="reference external" href="http://jhnphm.github.io/posts/www.ti.com/ww/en/launchpad/launchpads-tivac.html"&gt;Tiva-C&lt;/a&gt; series microcontroller from Texas
+Instruments which has the ability to do 2 megasamples per second, and
+runs at 80MHz, for the low cost of 12$. What we actually have on hand is
+the LM4F120XL which is essentially the same thing before the series was
+rebranded, but without PWM and USB OTG.&lt;/p&gt;
+&lt;p&gt;The ADCs on the microcontroller require buffering due to the rather low
+2.5kOhm impedence. This will be addressed later. In the meantime, we
+intend to use the i2c ADCs already on hand.&lt;/p&gt;
+&lt;p&gt;In order to build the toolchain, I downloaded the latest version of
+&lt;a class="reference external" href="http://crosstool-ng.org/"&gt;crosstool-ng&lt;/a&gt; and built it from source, using a &lt;a class="reference external" href="http://e2e.ti.com/support/microcontrollers/tiva_arm/f/908/t/65137.aspx"&gt;post&lt;/a&gt; by Todd Elliot
+on the TI forums as a guide. However, it doesn't seem necessary to
+install OpenOCD from source on Ubuntu 13.10 for the LM4F120XL, and the
+sample config recommended isn't optimal for the microcontroller (doesn't
+use the hardware floating point). I've posted my configuration on
+&lt;a class="reference external" href="https://github.com/jhnphm/tiva-c_xtools"&gt;github&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;One also needs to download &lt;a class="reference external" href="https://focus-webapps.ti.com/licreg/docs/swlicexportcontrol.tsp?form_type=2&amp;amp;prod_no=SW-EK-LM4F232-2.0.1.11577.exe&amp;amp;ref_url=http://software-dl.ti.com/tiva-c/SW-TM4C/latest/&amp;amp;form_id=154910"&gt;TivaWare&lt;/a&gt; from Texas Instruments. Once
+downloaded it can be unzipped on Linux without running the windows
+executable. Run &lt;tt class="docutils literal"&gt;make clean&lt;/tt&gt; on the extracted directory,
+&lt;tt class="docutils literal"&gt;patch &lt;span class="pre"&gt;-Np1&lt;/span&gt; &amp;lt; hard_fp.patch&lt;/tt&gt;, then run &lt;tt class="docutils literal"&gt;make&lt;/tt&gt;. The patch can be
+found in my repository above. My configuration enables the hard float
+ABI while TivaWare is set to default to soft float.&lt;/p&gt;
+&lt;p&gt;To start the on-chip-debugger to program the board, ensure that the
+permissions to /dev/ttyAC* are correct. then run
+&lt;tt class="docutils literal"&gt;openocd &lt;span class="pre"&gt;-f&lt;/span&gt; &lt;span class="pre"&gt;/usr/share/openocd/scripts/board/ek-lm4f120xl.cfg&lt;/span&gt;&lt;/tt&gt; for the
+LM4F120XL, or
+&lt;tt class="docutils literal"&gt;openocd &lt;span class="pre"&gt;-f&lt;/span&gt; &lt;span class="pre"&gt;/usr/share/openocd/scripts/board/ek-tm4c123gxl.cfg&lt;/span&gt;&lt;/tt&gt; for
+the TivaC. &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;ek-tm4c123gxl.cfg&lt;/span&gt;&lt;/tt&gt; will have to be obtained from
+&lt;a class="reference external" href="https://gitorious.org/openocd/openocd/commit/24099b4c144f1c6d1244b8b4d98c0fd69c9ff2fc"&gt;gitorious&lt;/a&gt; and placed in &lt;tt class="docutils literal"&gt;/usr/share/openocd/scripts/board&lt;/tt&gt;. The
+above assumes OpenOCD was installed from a package manager.&lt;/p&gt;
+&lt;p&gt;As an example, to program, run
+&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;arm-stellaris-eabi-gdb&lt;/span&gt; &lt;span class="pre"&gt;tivaware/examples/boards/ek-tm4c123gxl/qs-rgb/gcc/qs-rgb.axf&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;Below is an example session:&lt;/p&gt;
+&lt;pre class="code text literal-block"&gt;
+&amp;lt;pre&amp;gt;
+GNU gdb (crosstool-NG 1.19.0) 7.6-2013.05
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &amp;lt;http://gnu.org/licenses/gpl.html&amp;gt;
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "--host=x86_64-build_unknown-linux-gnu
+--target=arm-stellaris-eabi".
+For bug reporting instructions, please see:
+&amp;lt;http://bugs.launchpad.net/gdb-linaro/&amp;gt;...
+Reading symbols from
+/home/john/Downloads/tivaware/examples/boards/ek-tm4c123gxl/qs-rgb/gcc/qs-rgb.axf...done.
+(gdb) target remote :3333
+Remote debugging using :3333
+0x000002d4 in ButtonsPoll ()
+(gdb) monitor reset halt
+target state: halted
+target halted due to debug-request, current mode: Thread
+xPSR: 0x01000000 pc: 0x00000ba4 msp: 0x20000910
+(gdb) load
+
+Loading section .text, size 0x2664 lma 0x0
+Loading section .data, size 0x50 lma 0x2664
+Start address 0xba4, load size 9908
+Transfer rate: 12 KB/sec, 4954 bytes/write.
+(gdb)
+(gdb) monitor reset init
+target state: halted
+target halted due to debug-request, current mode: Thread
+xPSR: 0x01000000 pc: 0x00000ba4 msp: 0x20000910
+(gdb) c
+&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;</description><category>thesis tivac arm xtools</category><guid>http://jhnphm.github.io/posts/resuming-thesis.html</guid><pubDate>Sat, 08 Feb 2014 15:32:54 GMT</pubDate></item><item><title>OpenWRT IPv6 Tunnel with Verizon FIOS</title><link>http://jhnphm.github.io/posts/openwrt-ipv6-tunnel-with-verizon-fios.html</link><description>&lt;div&gt;&lt;p&gt;So I installed OpenWRT last week on a router a friend loaned me.
+Verizon's router isn't particularly bad for what it does (specifically
+the Rev I Actiontec), but it really lacks customizability, and IPv6
+tunneling support to correct Verizon's deficiencies.&lt;/p&gt;
+&lt;p&gt;I was able to acquire an ASUS RT-N16 last weekend and install OpenWRT on
+it. The &lt;a class="reference external" href="http://openwrt.razvi.ro/"&gt;unofficial builds&lt;/a&gt; linked from the &lt;a class="reference external" href="http://wiki.openwrt.org/toh/asus/rt-n16"&gt;wiki&lt;/a&gt; didn't work for me,
+and the wiki probably hasn't been updated for the latest available
+build, so I found the &lt;a class="reference external" href="http://downloads.openwrt.org/snapshots/trunk/brcm47xx/openwrt-brcm47xx-squashfs.trx"&gt;snapshot build&lt;/a&gt; for bcrm47xx and installed it
+via TFTP. The web interface (&lt;a class="reference external" href="http://luci.subsignal.org/trac"&gt;LUCI&lt;/a&gt;) was installed and enabled.&lt;/p&gt;
+&lt;p&gt;Since I'm using Verizon, using FIOs TV, and wanted the ASUS as the
+primary router in order to use it as an IPV6 tunnel endpoint , I
+attempted to set up double bridging (Option 5) as described in this
+&lt;a class="reference external" href="http://jhnphm.github.io/posts/www.dslreports.com/faq/16077"&gt;DSLReports posting&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Unfortunately the MI424WR Rev I is incompatible with this configuration.
+I attempted to use Option 2, but the double NAT breaks Steam. Finally I
+configured a static route on the Actiontec to the ASUS router's subnet
+and disabled NAT and the IPv4 firewall on the ASUS router. This still
+breaks UPnP and NAT is still being done on the Verizon router, but it's
+something I can live with. The Rev I of the Verizon router isn't
+terrible hardware-wise, it's just incompatible with custom firmware
+while retaining &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Multimedia_over_Coax_Alliance"&gt;MoCA&lt;/a&gt; support for the TV.&lt;/p&gt;
+&lt;p&gt;I signed up for a Hurricane Electric (HE) &lt;a class="reference external" href="https://www.tunnelbroker.net/"&gt;tunnel&lt;/a&gt; and configured a
+tunnel. IRC does not work until one takes the &lt;a class="reference external" href="https://ipv6.he.net/certification/"&gt;IPv6 test&lt;/a&gt; to reach Sage
+level. As a bonus, they give you a T-shirt. In order to get this to
+work, IP protocol 41 had to be forwarded to the ASUS router as described
+by &lt;a class="reference external" href="http://bill-owens.blogspot.com/2011/11/hurricane-electric-ipv6-tunnel-through.html"&gt;Bill Owens&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;As IPv6 addresses can be long and difficult to remember, I wanted to
+enable DDNS for local computers in the network, which requires DHCPv6.
+By default this is enabled in OpenWRT, and also sets a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Unique_local_address"&gt;Unique Local
+Address&lt;/a&gt; for the interface. Both the ULA addresses and the global
+addresses from HE were assigned via DHCPv6. This would otherwise be
+fine, however NetworkManager on Linux will only pick up one of the
+assigned addresses, whichever gets sent last. To fix this, the ULA
+address had to be cleared from the router configuration so that only the
+GUA was assigned.&lt;/p&gt;
+&lt;p&gt;Android does not support DHCPv6 but will still work w/ &lt;a class="reference external" href="https://en.wikipedia.org/wiki/IPv6#Stateless_address_autoconfiguration_.28SLAAC.29"&gt;SLAAC&lt;/a&gt;. This
+means that stateful+stateless (on the LuCI web interface for the network
+interface) must be enabled.&lt;/p&gt;
+&lt;p&gt;Ultimately the configuration I used will result in four addresses being
+assigned to each device (3 in the case of Android). These are the global
+address assigned by DHCPv6, the global SLAAC address generated from the
+MAC address, the global &lt;a class="reference external" href="https://en.wikipedia.org/wiki/IPv6#Privacy"&gt;IPv6 privacy extensions&lt;/a&gt; for SLAAC, and the
+device's automatically generated link-local address.&lt;/p&gt;&lt;/div&gt;</description><category>ipv6 openwrt verizon slaac dhcpv6</category><guid>http://jhnphm.github.io/posts/openwrt-ipv6-tunnel-with-verizon-fios.html</guid><pubDate>Sat, 08 Feb 2014 13:50:52 GMT</pubDate></item></channel></rss>
