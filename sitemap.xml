@@ -5,11 +5,87 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
+  <loc>http://jhnphm.github.io/2014/index.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
   <loc>http://jhnphm.github.io/archive.html</loc>
   <lastmod>2014-02-11</lastmod>
  </url>
  <url>
+  <loc>http://jhnphm.github.io/categories/arm.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/arm.xml</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/dhcpv6.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/dhcpv6.xml</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
   <loc>http://jhnphm.github.io/categories/index.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/ipv6.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/ipv6.xml</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/openwrt.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/openwrt.xml</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/slaac.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/slaac.xml</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/thesis.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/thesis.xml</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/tiva-c.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/tiva-c.xml</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/verizon.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/verizon.xml</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/xtools.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/categories/xtools.xml</loc>
   <lastmod>2014-02-11</lastmod>
  </url>
  <url>
@@ -26,6 +102,14 @@
  </url>
  <url>
   <loc>http://jhnphm.github.io/listings/index.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/posts/openwrt-ipv6-tunnel-with-verizon-fios.html</loc>
+  <lastmod>2014-02-11</lastmod>
+ </url>
+ <url>
+  <loc>http://jhnphm.github.io/posts/tivac-toolchain.html</loc>
   <lastmod>2014-02-11</lastmod>
  </url>
  <url>

@@ -59,7 +59,6 @@ Below is an example session:
 
 .. code:: text
 
-   <pre>
    GNU gdb (crosstool-NG 1.19.0) 7.6-2013.05
    Copyright (C) 2013 Free Software Foundation, Inc.
    License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
@@ -91,7 +90,6 @@ Below is an example session:
    target halted due to debug-request, current mode: Thread 
    xPSR: 0x01000000 pc: 0x00000ba4 msp: 0x20000910
    (gdb) c
-   </pre>
 
 
 
