@@ -1,7 +1,7 @@
 .. title: Resuming Thesis
 .. slug: resuming-thesis 
 .. date: 2014/02/08 15:32:54
-.. tags: thesis tivac arm xtools
+.. tags: thesis,tiva-c,arm,xtools
 .. link: 
 .. description: 
 .. type: text

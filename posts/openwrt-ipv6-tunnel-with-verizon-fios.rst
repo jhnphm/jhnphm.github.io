@@ -1,7 +1,7 @@
 .. title: OpenWRT IPv6 Tunnel with Verizon FIOS
 .. slug: openwrt-ipv6-tunnel-with-verizon-fios
 .. date: 2014/02/08 13:50:52
-.. tags: ipv6 openwrt verizon slaac dhcpv6
+.. tags: ipv6,openwrt,verizon,slaac,dhcpv6
 .. link: 
 .. description: 
 .. type: text

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Soldering Fumes (openwrt)</title><link>http://jhnphm.github.io</link><description></description><atom:link href="http://jhnphm.github.io/categories/openwrt.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Tue, 11 Feb 2014 02:03:25 GMT</lastBuildDate><generator>Nikola &lt;http://getnikola.com/&gt;</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>OpenWRT IPv6 Tunnel with Verizon FIOS</title><link>http://jhnphm.github.io/posts/openwrt-ipv6-tunnel-with-verizon-fios.html</link><description>&lt;div&gt;&lt;p&gt;So I installed OpenWRT last week on a router a friend loaned me.
+Verizon's router isn't particularly bad for what it does (specifically
+the Rev I Actiontec), but it really lacks customizability, and IPv6
+tunneling support to correct Verizon's deficiencies.&lt;/p&gt;
+&lt;p&gt;I was able to acquire an ASUS RT-N16 last weekend and install OpenWRT on
+it. The &lt;a class="reference external" href="http://openwrt.razvi.ro/"&gt;unofficial builds&lt;/a&gt; linked from the &lt;a class="reference external" href="http://wiki.openwrt.org/toh/asus/rt-n16"&gt;wiki&lt;/a&gt; didn't work for me,
+and the wiki probably hasn't been updated for the latest available
+build, so I found the &lt;a class="reference external" href="http://downloads.openwrt.org/snapshots/trunk/brcm47xx/openwrt-brcm47xx-squashfs.trx"&gt;snapshot build&lt;/a&gt; for bcrm47xx and installed it
+via TFTP. The web interface (&lt;a class="reference external" href="http://luci.subsignal.org/trac"&gt;LUCI&lt;/a&gt;) was installed and enabled.&lt;/p&gt;
+&lt;p&gt;Since I'm using Verizon, using FIOs TV, and wanted the ASUS as the
+primary router in order to use it as an IPV6 tunnel endpoint , I
+attempted to set up double bridging (Option 5) as described in this
+&lt;a class="reference external" href="http://jhnphm.github.io/posts/www.dslreports.com/faq/16077"&gt;DSLReports posting&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Unfortunately the MI424WR Rev I is incompatible with this configuration.
+I attempted to use Option 2, but the double NAT breaks Steam. Finally I
+configured a static route on the Actiontec to the ASUS router's subnet
+and disabled NAT and the IPv4 firewall on the ASUS router. This still
+breaks UPnP and NAT is still being done on the Verizon router, but it's
+something I can live with. The Rev I of the Verizon router isn't
+terrible hardware-wise, it's just incompatible with custom firmware
+while retaining &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Multimedia_over_Coax_Alliance"&gt;MoCA&lt;/a&gt; support for the TV.&lt;/p&gt;
+&lt;p&gt;I signed up for a Hurricane Electric (HE) &lt;a class="reference external" href="https://www.tunnelbroker.net/"&gt;tunnel&lt;/a&gt; and configured a
+tunnel. IRC does not work until one takes the &lt;a class="reference external" href="https://ipv6.he.net/certification/"&gt;IPv6 test&lt;/a&gt; to reach Sage
+level. As a bonus, they give you a T-shirt. In order to get this to
+work, IP protocol 41 had to be forwarded to the ASUS router as described
+by &lt;a class="reference external" href="http://bill-owens.blogspot.com/2011/11/hurricane-electric-ipv6-tunnel-through.html"&gt;Bill Owens&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;As IPv6 addresses can be long and difficult to remember, I wanted to
+enable DDNS for local computers in the network, which requires DHCPv6.
+By default this is enabled in OpenWRT, and also sets a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Unique_local_address"&gt;Unique Local
+Address&lt;/a&gt; for the interface. Both the ULA addresses and the global
+addresses from HE were assigned via DHCPv6. This would otherwise be
+fine, however NetworkManager on Linux will only pick up one of the
+assigned addresses, whichever gets sent last. To fix this, the ULA
+address had to be cleared from the router configuration so that only the
+GUA was assigned.&lt;/p&gt;
+&lt;p&gt;Android does not support DHCPv6 but will still work w/ &lt;a class="reference external" href="https://en.wikipedia.org/wiki/IPv6#Stateless_address_autoconfiguration_.28SLAAC.29"&gt;SLAAC&lt;/a&gt;. This
+means that stateful+stateless (on the LuCI web interface for the network
+interface) must be enabled.&lt;/p&gt;
+&lt;p&gt;Ultimately the configuration I used will result in four addresses being
+assigned to each device (3 in the case of Android). These are the global
+address assigned by DHCPv6, the global SLAAC address generated from the
+MAC address, the global &lt;a class="reference external" href="https://en.wikipedia.org/wiki/IPv6#Privacy"&gt;IPv6 privacy extensions&lt;/a&gt; for SLAAC, and the
+device's automatically generated link-local address.&lt;/p&gt;&lt;/div&gt;</description><category>ipv6</category><category>openwrt</category><category>verizon</category><category>slaac</category><category>dhcpv6</category><guid>http://jhnphm.github.io/posts/openwrt-ipv6-tunnel-with-verizon-fios.html</guid><pubDate>Sat, 08 Feb 2014 13:50:52 GMT</pubDate></item></channel></rss>
