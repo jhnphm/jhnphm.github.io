@@ -1,7 +1,7 @@
-.. title: Tiva-C Toolchain 
+.. title: Thesis: Tiva-C Toolchain 
 .. slug: tivac-toolchain
 .. date: 2014/02/08 15:32:54
-.. tags: thesis,tiva-c,arm,xtools
+.. tags: thesis,tiva-c,arm,xtools,xbh
 .. link: 
 .. description: 
 .. type: text

@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Soldering Fumes</title><link>http://jhnphm.github.io/</link><description>Jhnphm's Blag</description><atom:link href="http://jhnphm.github.io/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Tue, 11 Feb 2014 10:27:46 GMT</lastBuildDate><generator>Nikola &lt;http://getnikola.com/&gt;</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Tiva-C Toolchain</title><link>http://jhnphm.github.io/posts/tivac-toolchain.html</link><description>&lt;div&gt;&lt;p&gt;So I've not been working consistently on my thesis as I should. As
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Soldering Fumes</title><link>http://jhnphm.github.io/</link><description>Jhnphm's Blag</description><atom:link href="http://jhnphm.github.io/rss.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Fri, 28 Feb 2014 14:05:10 GMT</lastBuildDate><generator>Nikola &lt;http://getnikola.com/&gt;</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Thesis: Porting XBH</title><link>http://jhnphm.github.io/posts/porting-xbh.html</link><description>&lt;div&gt;&lt;p&gt;As mentioned in a previous &lt;a class="reference external" href="http://jhnphm.wordpress.com/2013/04/18/thesis/"&gt;post&lt;/a&gt;, the goal of my thesis is to extend the XBX
+project to cover power and energy measurements. In order to do this, the
+eXternal Benchmarking Harness (XBH) needs to be replaced with something that can
+provide frequent sampling and sufficient storage in order to measure current and
+voltage in order to compute power and energy usage, and record mins and maxes.&lt;/p&gt;
+&lt;p&gt;The original XBH was based off of a home automation platform using an &lt;a class="reference external" href="http://www.atmel.com/devices/ATMEGA644.aspx"&gt;ATMega644&lt;/a&gt; ,
+which was deemed insufficiently powerful. We originally intended on replacing it
+with a Raspberry Pi, but unfortunately it was deemed rather unsuitable for real-time
+measurement purposes despite its power, as only Linux variants are supported,
+bare-metal programming is difficult, and external ADCs would have to be added.
+We decided to relegate the Pi to simply a networking interface for the &lt;a class="reference external" href="http://jhnphm.github.io/posts/www.ti.com/ww/en/launchpad/launchpads-tivac.html"&gt;Tiva-C&lt;/a&gt;
+board from TI, which can easily run bare-metal code and has a builtin ADC.&lt;/p&gt;
+&lt;p&gt;The Tiva-C half of the XBH will be responsible for triggering the start of the
+measurement via a GPIO pin, measuring voltage and current while operating, and
+sensing completion of the benchmark via  GPIO pin. It will record data and
+attach a timestamp and send  the data over USB to the Raspberry Pi.
+Pre-processing data to reduce what has to be uploaded over USB may be done on
+the Tiva-C&lt;/p&gt;
+&lt;p&gt;The Raspberry Pi will be responsible for receiving commands via SSH or a web
+interface and telling the ARM when to start. It is also responsible for
+downloading code to and programming the eXternal Benchmarking Device (XBD).&lt;/p&gt;
+&lt;p&gt;Currently the task is to get USB IO between a PC and the stellaris working.&lt;/p&gt;&lt;/div&gt;</description><category>thesis</category><category>xbh</category><category>xbx</category><guid>http://jhnphm.github.io/posts/porting-xbh.html</guid><pubDate>Wed, 26 Feb 2014 22:54:12 GMT</pubDate></item><item><title>Thesis: Tiva-C Toolchain</title><link>http://jhnphm.github.io/posts/tivac-toolchain.html</link><description>&lt;div&gt;&lt;p&gt;So I've not been working consistently on my thesis as I should. As
 previously mentioned on my old &lt;a class="reference external" href="http://jhnphm.wordpress.com/"&gt;blog&lt;/a&gt;, I was considering running
 everything directly off the Raspberry Pi and using Xenomai as the
 real-time OS in order to keep the jitter low.&lt;/p&gt;
@@ -73,7 +94,7 @@ target state: halted
 target halted due to debug-request, current mode: Thread
 xPSR: 0x01000000 pc: 0x00000ba4 msp: 0x20000910
 (gdb) c
-&lt;/pre&gt;&lt;/div&gt;</description><category>thesis</category><category>tiva-c</category><category>arm</category><category>xtools</category><guid>http://jhnphm.github.io/posts/tivac-toolchain.html</guid><pubDate>Sat, 08 Feb 2014 15:32:54 GMT</pubDate></item><item><title>OpenWRT IPv6 Tunnel with Verizon FIOS</title><link>http://jhnphm.github.io/posts/openwrt-ipv6-tunnel-with-verizon-fios.html</link><description>&lt;div&gt;&lt;p&gt;So I installed OpenWRT last week on a router a friend loaned me.
+&lt;/pre&gt;&lt;/div&gt;</description><category>thesis</category><category>tiva-c</category><category>arm</category><category>xtools</category><category>xbh</category><guid>http://jhnphm.github.io/posts/tivac-toolchain.html</guid><pubDate>Sat, 08 Feb 2014 15:32:54 GMT</pubDate></item><item><title>OpenWRT IPv6 Tunnel with Verizon FIOS</title><link>http://jhnphm.github.io/posts/openwrt-ipv6-tunnel-with-verizon-fios.html</link><description>&lt;div&gt;&lt;p&gt;So I installed OpenWRT last week on a router a friend loaned me.
 Verizon's router isn't particularly bad for what it does (specifically
 the Rev I Actiontec), but it really lacks customizability, and IPv6
 tunneling support to correct Verizon's deficiencies.&lt;/p&gt;

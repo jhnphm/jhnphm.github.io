@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="author" content="John Pham">
+    <title>Thesis: Porting XBH | Soldering Fumes</title>
+    
+            <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+    <link rel="canonical" href="http://jhnphm.github.io/posts/porting-xbh.html">
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+            <link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+
+    
+
+
+
+    
+</head>
+<body class="home blog">
+    <div id="wrap" style="width:850px">
+        <div id="container" style="width:560px">
+            
+    <div class="post">
+    
+    <h1 class="p-name" itemprop="headline name">Thesis: Porting XBH</h1>
+
+        <div class="meta" style="background-color: rgb(234, 234, 234); ">
+        <span class="authordate">
+            Posted: <time class="published" datetime="2014-02-26T22:54:12+00:00">2014-02-26 22:54</time>
+               [<a href="porting-xbh.rst" id="sourcelink">Source</a>]
+        </span>
+        <br>
+                <span class="tags">Tags: 
+                    <a class="tag" href="../categories/thesis.html"><span>thesis</span></a>
+                    <a class="tag" href="../categories/xbh.html"><span>xbh</span></a>
+                    <a class="tag" href="../categories/xbx.html"><span>xbx</span></a>
+                </span>
+                <br>
+        <span class="authordate">
+            
+
+        </span>
+        </div>
+    <div><p>As mentioned in a previous <a class="reference external" href="http://jhnphm.wordpress.com/2013/04/18/thesis/">post</a>, the goal of my thesis is to extend the XBX
+project to cover power and energy measurements. In order to do this, the
+eXternal Benchmarking Harness (XBH) needs to be replaced with something that can
+provide frequent sampling and sufficient storage in order to measure current and
+voltage in order to compute power and energy usage, and record mins and maxes.</p>
+<p>The original XBH was based off of a home automation platform using an <a class="reference external" href="http://www.atmel.com/devices/ATMEGA644.aspx">ATMega644</a> ,
+which was deemed insufficiently powerful. We originally intended on replacing it
+with a Raspberry Pi, but unfortunately it was deemed rather unsuitable for real-time
+measurement purposes despite its power, as only Linux variants are supported,
+bare-metal programming is difficult, and external ADCs would have to be added.
+We decided to relegate the Pi to simply a networking interface for the <a class="reference external" href="www.ti.com/ww/en/launchpad/launchpads-tivac.html">Tiva-C</a>
+board from TI, which can easily run bare-metal code and has a builtin ADC.</p>
+<p>The Tiva-C half of the XBH will be responsible for triggering the start of the
+measurement via a GPIO pin, measuring voltage and current while operating, and
+sensing completion of the benchmark via  GPIO pin. It will record data and
+attach a timestamp and send  the data over USB to the Raspberry Pi.
+Pre-processing data to reduce what has to be uploaded over USB may be done on
+the Tiva-C</p>
+<p>The Raspberry Pi will be responsible for receiving commands via SSH or a web
+interface and telling the ARM when to start. It is also responsible for
+downloading code to and programming the eXternal Benchmarking Device (XBD).</p>
+<p>Currently the task is to get USB IO between a PC and the stellaris working.</p></div>
+    
+        <ul class="pager">
+            <li class="previous">
+                <a href="tivac-toolchain.html" rel="prev">← Previous post</a>
+            </li>
+        </ul>
+
+        
+
+    
+
+    </div>
+
+        </div>
+        <div id="sidebar">
+            <!--Sidebar content-->
+            <h1 id="blog-title">
+                <a href="http://jhnphm.github.io/" title="Soldering Fumes">Soldering Fumes</a>
+            </h1>
+            
+            
+            <ul class="unstyled">
+            <li>
+            
+    
+
+            
+                </li><li><a href="../archive.html">Archives</a>
+                </li><li><a href="../categories/index.html">Tags</a>
+                </li><li><a href="../rss.xml">RSS</a>
+
+            </li><li>
+            </li></ul>
+        </div>
+        <div id="footer">
+            Contents © 2014         <a href="mailto:jhnphm@gmail.com">John Pham</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         
+        </div>
+    </div>
+    
+            <script src="../assets/js/all-nocdn.js" type="text/javascript"></script>
+
+    <script type="text/javascript">jQuery("a.image-reference").colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script>
+    
+    
+</body>
+</html>

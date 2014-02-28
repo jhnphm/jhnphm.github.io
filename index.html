@@ -22,7 +22,45 @@
         <div id="container" style="width:560px">
             
         <div class="postbox">
-        <h1><a href="posts/tivac-toolchain.html">Tiva-C Toolchain</a></h1>
+        <h1><a href="posts/porting-xbh.html">Thesis: Porting XBH</a></h1>
+            <div class="meta" style="background-color: rgb(234, 234, 234); ">                    
+                <span class="authordate">
+                    Posted: <time class="published" datetime="2014-02-26T22:54:12+00:00">2014-02-26 22:54</time>
+                </span>
+                <br>
+                <span class="tags">Tags: 
+                            <a class="tag" href="categories/thesis.html"><span>thesis</span></a>
+                            <a class="tag" href="categories/xbh.html"><span>xbh</span></a>
+                            <a class="tag" href="categories/xbx.html"><span>xbx</span></a>
+                </span>
+            </div>
+        <div><p>As mentioned in a previous <a class="reference external" href="http://jhnphm.wordpress.com/2013/04/18/thesis/">post</a>, the goal of my thesis is to extend the XBX
+project to cover power and energy measurements. In order to do this, the
+eXternal Benchmarking Harness (XBH) needs to be replaced with something that can
+provide frequent sampling and sufficient storage in order to measure current and
+voltage in order to compute power and energy usage, and record mins and maxes.</p>
+<p>The original XBH was based off of a home automation platform using an <a class="reference external" href="http://www.atmel.com/devices/ATMEGA644.aspx">ATMega644</a> ,
+which was deemed insufficiently powerful. We originally intended on replacing it
+with a Raspberry Pi, but unfortunately it was deemed rather unsuitable for real-time
+measurement purposes despite its power, as only Linux variants are supported,
+bare-metal programming is difficult, and external ADCs would have to be added.
+We decided to relegate the Pi to simply a networking interface for the <a class="reference external" href="posts/www.ti.com/ww/en/launchpad/launchpads-tivac.html">Tiva-C</a>
+board from TI, which can easily run bare-metal code and has a builtin ADC.</p>
+<p>The Tiva-C half of the XBH will be responsible for triggering the start of the
+measurement via a GPIO pin, measuring voltage and current while operating, and
+sensing completion of the benchmark via  GPIO pin. It will record data and
+attach a timestamp and send  the data over USB to the Raspberry Pi.
+Pre-processing data to reduce what has to be uploaded over USB may be done on
+the Tiva-C</p>
+<p>The Raspberry Pi will be responsible for receiving commands via SSH or a web
+interface and telling the ARM when to start. It is also responsible for
+downloading code to and programming the eXternal Benchmarking Device (XBD).</p>
+<p>Currently the task is to get USB IO between a PC and the stellaris working.</p></div>
+            
+
+        </div>
+        <div class="postbox">
+        <h1><a href="posts/tivac-toolchain.html">Thesis: Tiva-C Toolchain</a></h1>
             <div class="meta" style="background-color: rgb(234, 234, 234); ">                    
                 <span class="authordate">
                     Posted: <time class="published" datetime="2014-02-08T15:32:54+00:00">2014-02-08 15:32</time>
@@ -33,6 +71,7 @@
                             <a class="tag" href="categories/tiva-c.html"><span>tiva-c</span></a>
                             <a class="tag" href="categories/arm.html"><span>arm</span></a>
                             <a class="tag" href="categories/xtools.html"><span>xtools</span></a>
+                            <a class="tag" href="categories/xbh.html"><span>xbh</span></a>
                 </span>
             </div>
         <div><p>So I've not been working consistently on my thesis as I should. As
